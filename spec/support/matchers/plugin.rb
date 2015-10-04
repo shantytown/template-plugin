@@ -6,19 +6,21 @@ module Shanty
     end
   end
 
-  RSpec::Matchers.define(:add_option) do |option, value|
+  RSpec::Matchers.define(:add_config) do |config, value|
     match do |actual|
-      expect(actual.options.to_h[option]).to eql(value)
+      expect(actual.config[config]).to eql(value)
     end
   end
 
-  RSpec::Matchers.define(:define_projects) do
+  RSpec::Matchers.define(:provide_projects) do |*syms|
     match do |actual|
-      expect(actual.instance_variable_get(:@project_matchers)).to include(*(@matchers || []))
+      expect(actual.instance_variable_get(:@project_providers)).to include(*syms)
     end
+  end
 
-    chain :with do |*matchers|
-      @matchers = matchers
+  RSpec::Matchers.define(:provide_projects_containing) do |*globs|
+    match do |actual|
+      expect(actual.instance_variable_get(:@project_globs)).to include(*globs)
     end
   end
 end
