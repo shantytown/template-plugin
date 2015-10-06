@@ -1,0 +1,1 @@
+require 'shanty_template_plugin/template_plugin'
